@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 export default{
-    //nihao
+    //niahosjss 
     getTree(id){
       return request({
           url:'edu/chapter/chapterTree/'+id,
