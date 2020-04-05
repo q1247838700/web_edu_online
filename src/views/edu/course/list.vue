@@ -102,7 +102,11 @@
       {{ scope.row.buyCount }}人
     </template>
   </el-table-column>
-
+ <el-table-column prop="status" label="课程状态" width="100" align="center" >
+    <template slot-scope="scope">
+        <el-button @click="changeStatus(scope.row.id,scope.row.status)"  plain  size="small" :type="scope.row.status === 'Draft' ? 'primary' : 'success'">{{scope.row.status === 'Draft' ? '未发布' : '已发布'}}</el-button>
+    </template>
+</el-table-column>
   <el-table-column label="操作" width="150" align="center">
     <template slot-scope="scope">
       <router-link :to="'/edu/course/info/'+scope.row.id">
@@ -163,9 +167,42 @@ export default {
   },
 
   methods: {
+    //改变课时发布状态
+    changeStatus(id,status){
+      var mflag=''
+      if(status!='Draft'){
+       //此时发布课程,要改成发布状态
+      mflag='取消'
+      }
+this.$confirm(mflag+'发布课程吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+    }).then(() => {
+      if(status==='Draft'){
+      return course.publishCourse(id)
+      }else{
+        return course.cancelCourse(id)
+      }
+       
+    }).then(() => {
+        this.fetchData()
+        this.$message({
+            type: 'success',
+            message: '修改成功!'
+        })
+    }).catch((response) => { // 失败
+        if (response === 'cancel') {
+            this.$message({
+                type: 'info',
+                message: '已取消'
+            })
+        }
+    })
+    },
     //删除课程
     removeDataById(id) {
-  console.log(id)
+
     this.$confirm('此操作将永久删除该课程，以及该课程下的章节和视频，是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

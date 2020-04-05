@@ -36,9 +36,25 @@ export default{
             data:searchObj
         })
     },
+    //获取最终课时细节
     getCourseDetails(courseId){
         return request({
-            url:'/'
+            url:'/edu/course/details/'+courseId,
+            method:'get'
         })
+    },
+    //发布课程
+    publishCourse(courseId){
+        return request({
+            url:'/edu/course/publish/'+courseId,
+            method:'put'
+        })
+    },
+    //取消发布课程
+    cancelCourse(courseId){
+return request({
+    url:'edu/course/cancel/'+courseId,
+    method:'put'
+})
     }
 }
