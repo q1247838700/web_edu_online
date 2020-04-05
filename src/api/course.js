@@ -35,6 +35,10 @@ export default{
             method:'post',
             data:searchObj
         })
+    },
+    getCourseDetails(courseId){
+        return request({
+            url:'/'
+        })
     }
-
 }
