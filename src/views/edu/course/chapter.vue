@@ -33,6 +33,13 @@
         <el-form-item label="课时排序">
             <el-input-number v-model="video.sort" :min="0" controls-position="right"/>
         </el-form-item>
+         <el-form-item label="是否免费">
+             
+      <el-radio-group v-model="video.isFree">
+    <el-radio :label="0">免费</el-radio>
+    <el-radio :label="1">收费</el-radio>
+  </el-radio-group>
+        </el-form-item>
         <el-form-item label="上传视频">
     <el-upload
            :on-success="handleVodUploadSuccess"
@@ -61,14 +68,14 @@
     </div>
 </el-dialog>
 <!-- 章节 -->
- <form >
-    <el-li
+ <span>
+    <span
         v-for="chapter in chapterNestedList"
         :key="chapter.id">
         <p>
             {{ chapter.title }}
 
-            <span >
+            <span class="acts">
               
                 <el-button size="small" type="text" @click="addVideo(chapter.id)"  plain>添加课时</el-button>
                 <el-button size="small" type="text" @click="editChapter(chapter.id)" plain>编辑</el-button>
@@ -77,8 +84,8 @@
         </p>
 
         <!-- 视频 -->
-        <form class="chanpterList videoList">
-            <li
+        <form >
+            <span
                 v-for="video in chapter.children"
                 :key="video.id">
                 <p>{{ video.title }}
@@ -87,10 +94,10 @@
                          <el-button type="danger" size="small" @click="removeVideo(video.id)" icon="el-icon-delete" circle></el-button>
                     </span>
                 </p>
-            </li>
+            </span>
         </form>
-    </el-li>
-</form> 
+    </span>
+</span> 
   
      
     <el-form label-width="120px">
@@ -128,10 +135,11 @@ export default {
            sort: 0
                },
       video:{    //video对象
-            id:'',
-            courseId:'',
-            chapterId:'',
-            title:'',
+            id:'',//videoid
+            courseId:'',//功课id
+            chapterId:'',//章节id
+            title:'',//课时标题
+            isFree:0,//是否免费
             sort:0,
             videoSourceId:'',
            videoOriginalName: ''
@@ -261,6 +269,8 @@ addVideo(chapterId){
   this.video.title = ''// 重置章节标题
   this.video.sort = 0// 重置章节标题
   this.video.chapterId=chapterId
+
+  this.fileList=[]
 this.dialogVideoFormVisible = true
 },
 //添加章节按钮
@@ -275,11 +285,14 @@ this.dialogChapterFormVisible = true
 //课时上的编辑按钮
 editVideo(videoId){
 this.saveBtnDisabled=false
-     
-    this.dialogVideoFormVisible = true
+     this.fileList=[]
+   
     video.getVideo(videoId).then(response=>{
       this.video=response.data.video
-      this.fileList = [{'name': this.video.videoOriginalName}]
+      if(this.video.videoOriginalName!=''){
+         this.fileList = [{'name': this.video.videoOriginalName}]
+      }
+       
      
     }).catch(response =>{
        this.$message({
@@ -287,6 +300,8 @@ this.saveBtnDisabled=false
          message:this.response.message
        })
     })
+   
+    this.dialogVideoFormVisible = true
 },
     //章节上的编辑按钮
    editChapter(chapterId) {

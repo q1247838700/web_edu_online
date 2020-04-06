@@ -27,7 +27,9 @@
             v-if="node.level == 2||data.children.length==0"
             type="text"
             size="mini"
+            
             @click="() => remove(node, data)">删除</el-button>
+            
         </span>
       </span>
     </el-tree>
