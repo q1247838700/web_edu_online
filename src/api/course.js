@@ -4,7 +4,7 @@ export default{
     getCourseById(id){
         return request({
             url:'/edu/course/'+id,
-            methods:'get'
+            method:'get'
             
         })
     },

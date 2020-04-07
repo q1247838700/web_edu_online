@@ -121,6 +121,22 @@ export const constantRouterMap = [
     }
   ]
 },
+//统计管理
+{
+  path: '/edu/statistics/daily',
+  component: Layout,
+  redirect: '/edu/statistics/daily/create',
+  name: 'Statistics',
+  meta: { title: '统计分析', icon: 'chart' },
+  children: [
+    {
+      path: 'create',
+      name: 'StatisticsDailyCreate',
+      component: () => import('@/views/edu/statistics/daily/create'),
+      meta: { title: '生成统计' }
+    }
+  ]
+},
   {
     path: '/example',
     component: Layout,
