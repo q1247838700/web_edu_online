@@ -127,14 +127,20 @@ export const constantRouterMap = [
   component: Layout,
   redirect: '/edu/statistics/daily/create',
   name: 'Statistics',
-  meta: { title: '统计分析', icon: 'chart' },
+  meta: { title: '统计分析', icon: 'form' },
   children: [
     {
       path: 'create',
       name: 'StatisticsDailyCreate',
       component: () => import('@/views/edu/statistics/daily/create'),
       meta: { title: '生成统计' }
-    }
+    },
+    {
+      path: 'chart',
+      name: 'StatisticsDayChart',
+      component: () => import('@/views/edu/statistics/daily/chart'),
+      meta: { title: '统计图表' }
+  }  
   ]
 },
   {

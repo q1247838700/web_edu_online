@@ -5,8 +5,14 @@ export default {
 
   createStatistics(day) {
     return request({
-      url: `/statistics/daily/${day}`,
+      url: `${api_name}/${day}`,
       method: 'post'
     })
-  }
+  },
+  showChart(begin,end) {
+    return request({
+        url: `${api_name}/showChart/${begin}/${end}`,
+        method: 'get'
+    })
+}
 }
